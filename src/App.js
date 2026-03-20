@@ -1,7 +1,9 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import Header from './components/Header';
 import Meals from './components/Meals';
 import CartContext from './store/CartContext';
+import Modal from './components/UI/Modal';
+import Button from './components/UI/Button';
 
 const defaultCartState = {
   items: [],
@@ -36,10 +38,19 @@ const cartReducer = (state, action) => {
 };
 
 const App = () => {
+  const [cartIsShown, setCartIsShown] = useState(false);
   const [cartState, cartDispatch] = useReducer(cartReducer, defaultCartState);
 
   const handleAddItemToCart = (item) => {
     cartDispatch({ type: 'ADD_ITEM', item });
+  };
+
+  const handleShowCart = () => {
+    setCartIsShown(true);
+  };
+
+  const handleHideCart = () => {
+    setCartIsShown(false);
   };
 
   const cartContext = {
@@ -49,7 +60,13 @@ const App = () => {
 
   return (
     <CartContext.Provider value={cartContext}>
-      <Header />
+      <Modal open={cartIsShown}>
+        <p>Test</p>
+        <p className="modal-actions">
+          <Button textOnly onClick={handleHideCart}>Close</Button>
+        </p>
+      </Modal>
+      <Header onShowCart={handleShowCart} />
       <Meals />
     </CartContext.Provider>
   );

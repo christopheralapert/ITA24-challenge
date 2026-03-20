@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import Button from './UI/Button';
 import CartContext from '../store/CartContext';
 
-const Header = () => {
+const Header = ({ onShowCart }) => {
     const cartCtx = useContext(CartContext);
 
     const cartItemsCount = cartCtx.items.reduce((totalNumberOfItems, item) => {
@@ -13,11 +13,11 @@ const Header = () => {
     return (
         <header id="main-header">
             <div id="title">
-                <img src={logo}/>
+                <img src={logo} alt="Food order app logo"/>
                 <h1>React Food Order App</h1>
             </div>
             <nav>
-                <Button textOnly>Cart ({cartItemsCount})</Button>
+                <Button textOnly onClick={onShowCart}>Cart ({cartItemsCount})</Button>
             </nav>
         </header>
     )
